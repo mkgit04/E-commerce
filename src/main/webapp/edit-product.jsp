@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details</title>
+    <title>Edit Product</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; background: radial-gradient(circle at top, rgba(255,255,255,0.8), rgba(230,240,255,0.4)), linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%); color: #1f2937; min-height: 100vh; }
@@ -16,14 +16,10 @@
         .pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(37, 99, 235, 0.08); color: #1d4ed8; font-weight: 700; width: fit-content; }
         .detail-title { font-size: clamp(1.25rem, 2.2vw, 1.75rem); margin: 0 0 10px; color: #0f172a; letter-spacing: -0.02em; }
         .muted { margin: 0; color: #64748b; }
-        .detail-list { display: grid; gap: 12px; margin: 0; }
-        .detail-row { display: grid; gap: 6px; padding: 16px; border-radius: 16px; background: rgba(15, 23, 42, 0.04); }
-        .detail-label { color: #64748b; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.08em; }
-        .form-label { display: block; color: #0f172a; font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
-        .detail-value { color: #0f172a; font-size: 1.05rem; font-weight: 700; }
         .section-title { font-size: clamp(1.25rem, 2.2vw, 1.75rem); margin: 0 0 10px; color: #0f172a; letter-spacing: -0.02em; }
         .panel-header { margin-bottom: 18px; }
         .form-stack { display: grid; gap: 12px; }
+        .form-label { display: block; color: #0f172a; font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
         input, select, textarea { width: 100%; padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 14px; background: rgba(255, 255, 255, 0.95); color: #0f172a; font: inherit; transition: border-color 160ms ease, box-shadow 160ms ease; }
         input:focus, select:focus, textarea:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12); }
         button, .button-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 18px; border: 0; border-radius: 999px; background: linear-gradient(135deg, #2563eb, #4f46e5); color: #ffffff; font-weight: 700; cursor: pointer; text-decoration: none; transition: transform 160ms ease, box-shadow 160ms ease; }
@@ -42,28 +38,32 @@
     <div class="page-container detail-layout">
         <section class="detail-card stack">
             <div>
-                <p class="pill">Product details</p>
+                <p class="pill">Edit product</p>
                 <h1 class="detail-title">${product.name}</h1>
-                <p class="muted">View complete information about this product.</p>
+                <p class="muted">Update the product name and price, then save your changes.</p>
             </div>
 
-            <div class="detail-list">
-                <div class="detail-row">
-                    <span class="detail-label">ID</span>
-                    <span class="detail-value">${product.id}</span>
+            <section class="panel">
+                <div class="panel-header">
+                    <h2 class="section-title">Product information</h2>
+                    <p class="muted">Change the name and price for this product.</p>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Name</span>
-                    <span class="detail-value">${product.name}</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Price</span>
-                    <span class="detail-value">$${product.price}</span>
-                </div>
-            </div>
+                <form method="post" action="${pageContext.request.contextPath}/products/update" class="form-stack">
+                    <input type="hidden" name="id" value="${product.id}" />
+                    <div>
+                        <label class="form-label">Product name</label>
+                        <input type="text" name="name" value="${product.name}" required />
+                    </div>
+                    <div>
+                        <label class="form-label">Price</label>
+                        <input type="number" step="0.01" name="price" value="${product.price}" required />
+                    </div>
+                    <button type="submit">Save changes</button>
+                </form>
+            </section>
 
             <div class="toolbar-group">
-                <a class="button-link" href="${pageContext.request.contextPath}/product/edit?id=${product.id}">Edit product</a>
+                <a class="button-link ghost" href="${pageContext.request.contextPath}/product?id=${product.id}">View product</a>
                 <a class="button-link ghost" href="${pageContext.request.contextPath}/ProductsMain">Back to products</a>
                 <form method="post" action="${pageContext.request.contextPath}/products/delete">
                     <input type="hidden" name="id" value="${product.id}" />
@@ -73,5 +73,6 @@
         </section>
     </div>
 </main>
+
 </body>
 </html>
