@@ -1,4 +1,4 @@
-package com.example.adv_proj;
+package com.example.controllers;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+
+import com.example.adv_proj.AppDao;
 
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {

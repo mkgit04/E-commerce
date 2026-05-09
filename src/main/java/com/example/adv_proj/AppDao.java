@@ -1,5 +1,7 @@
 package com.example.adv_proj;
 
+import com.example.adv_proj.pojo.Product;
+import com.example.adv_proj.pojo.Review;
 import redis.clients.jedis.Jedis;
 
 import java.sql.*;

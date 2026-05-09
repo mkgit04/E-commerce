@@ -1,4 +1,4 @@
-package com.example.adv_proj;
+package com.example.controllers;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -7,8 +7,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/products/add")
-public class AddProductServlet extends HttpServlet {
+import com.example.adv_proj.AppDao;
+
+@WebServlet("/products/update")
+public class UpdateProductServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
@@ -18,18 +20,21 @@ public class AddProductServlet extends HttpServlet {
                 return;
             }
 
+            String idValue = request.getParameter("id");
             String name = request.getParameter("name");
             String priceValue = request.getParameter("price");
-            if (name == null || name.isBlank() || priceValue == null || priceValue.isBlank()) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Name and price are required");
+
+            if (idValue == null || idValue.isBlank() || name == null || name.isBlank() || priceValue == null || priceValue.isBlank()) {
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product id, name, and price are required");
                 return;
             }
 
+            int productId = Integer.parseInt(idValue);
             float price = Float.parseFloat(priceValue);
-            AppDao.addProduct(name.trim(), price);
-            response.sendRedirect(request.getContextPath() + "/ProductsMain");
+            AppDao.updateProduct(productId, name.trim(), price);
+            response.sendRedirect(request.getContextPath() + "/product?id=" + productId);
         } catch (NumberFormatException e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Price must be numeric");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product id and price must be numeric");
         } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }

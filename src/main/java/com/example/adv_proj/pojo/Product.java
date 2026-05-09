@@ -1,10 +1,13 @@
-package com.example.adv_proj;
+package com.example.adv_proj.pojo;
 
 public class Product {
 
-    int id ;
-    String name;
-    float price;
+    private int id;
+    private String name;
+    private float price;
+
+    public Product() {
+    }
 
     public Product(int id, float price, String name) {
         this.id = id;

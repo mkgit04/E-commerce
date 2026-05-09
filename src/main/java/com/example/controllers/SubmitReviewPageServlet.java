@@ -1,5 +1,7 @@
-package com.example.adv_proj;
+package com.example.controllers;
 
+import com.example.adv_proj.AppDao;
+import com.example.adv_proj.pojo.Product;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,10 +10,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet("/reviews/view")
-public class ViewReviewsServlet extends HttpServlet {
+@WebServlet("/reviews/new")
+public class SubmitReviewPageServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String productIdValue = request.getParameter("productId");
@@ -29,10 +30,8 @@ public class ViewReviewsServlet extends HttpServlet {
                 return;
             }
 
-            List<Review> reviews = AppDao.getReviewsByProduct(productId);
             request.setAttribute("product", product);
-            request.setAttribute("reviews", reviews);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/view-reviews.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/submit-review.jsp");
             dispatcher.forward(request, response);
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product id must be numeric");

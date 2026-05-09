@@ -1,5 +1,6 @@
 package com.example.adv_proj;
 
+import com.example.adv_proj.pojo.Product;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
