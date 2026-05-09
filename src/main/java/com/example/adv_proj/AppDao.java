@@ -134,6 +134,23 @@ public class AppDao {
         }
     }
 
+    public static boolean updateProduct(int productId, String name, float price) throws Exception {
+        try (Connection connection = getConnection()) {
+            String nameColumn = resolveProductNameColumn(connection);
+            try (PreparedStatement ps = connection.prepareStatement(
+                    "UPDATE product_cards SET " + nameColumn + "=?, price=? WHERE id=?")) {
+                ps.setString(1, name);
+                ps.setFloat(2, price);
+                ps.setInt(3, productId);
+                boolean updated = ps.executeUpdate() > 0;
+                if (updated) {
+                    invalidateProductCache();
+                }
+                return updated;
+            }
+        }
+    }
+
     public static Product getProductById(int productId) throws Exception {
         try (Connection connection = getConnection();
              PreparedStatement ps = connection.prepareStatement("SELECT * FROM product_cards WHERE id=?")) {

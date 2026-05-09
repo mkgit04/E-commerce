@@ -17,7 +17,7 @@
         <p class="muted">Sign in to manage products, or create a new account to get started.</p>
       </div>
 
-      <div class="auth-grid">
+      <div class="auth-grid" style="grid-template-columns: minmax(0, 1fr);">
         <section class="panel">
           <div class="panel-header">
             <h2 class="section-title">Login</h2>
@@ -28,18 +28,9 @@
             <input type="password" name="password" placeholder="Password" required />
             <button type="submit">Login</button>
           </form>
-        </section>
-
-        <section class="panel">
-          <div class="panel-header">
-            <h2 class="section-title">Sign up</h2>
-            <p class="muted">Create a new account in a few seconds.</p>
+          <div>
+            <a class="button-link ghost" href="register.jsp">Create account</a>
           </div>
-          <form method="post" action="register" class="form-stack">
-            <input type="text" name="username" placeholder="Username" required />
-            <input type="password" name="password" placeholder="Password" required />
-            <button type="submit">Create account</button>
-          </form>
         </section>
       </div>
     </section>

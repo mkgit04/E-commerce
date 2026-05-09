@@ -42,10 +42,9 @@ public class LoginServlet extends HttpServlet {
                 tokenCookie.setMaxAge(3600);
                 response.addCookie(tokenCookie);
 
-                response.sendRedirect("ProductsMain");
+                response.sendRedirect(request.getContextPath() + "/ProductsMain");
             } else {
-                response.setStatus(401);
-                response.getWriter().println("INVALID USER");
+                response.sendRedirect(request.getContextPath() + "/invalid-user.jsp?reason=invalidCredentials");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

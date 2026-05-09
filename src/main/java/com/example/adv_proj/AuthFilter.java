@@ -29,7 +29,7 @@ public class AuthFilter implements Filter {
 
         String user = resolveUser(request);
         if (user == null || user.isBlank()) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
 
@@ -85,6 +85,8 @@ public class AuthFilter implements Filter {
     private boolean isPublicPath(String path) {
         return path.equals("/")
                 || path.endsWith("login.jsp")
+            || path.endsWith("register.jsp")
+            || path.endsWith("invalid-user.jsp")
                 || path.endsWith("register.jsp")
                 || path.endsWith("/login")
                 || path.endsWith("/register")

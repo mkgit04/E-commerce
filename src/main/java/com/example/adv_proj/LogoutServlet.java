@@ -23,7 +23,7 @@ public class LogoutServlet extends HttpServlet {
 
         clearCookie(response, "SESSION_ID");
         clearCookie(response, "AUTH_TOKEN");
-        response.sendRedirect("login.jsp");
+        response.sendRedirect(request.getContextPath() + "/login.jsp");
     }
 
     private void clearCookie(HttpServletResponse response, String name) {

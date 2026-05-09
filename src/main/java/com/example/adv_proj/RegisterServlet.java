@@ -15,18 +15,18 @@ public class RegisterServlet extends HttpServlet {
     String password = request.getParameter("password");
 
     if (username == null || username.isBlank() || password == null || password.isBlank()) {
-        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Username and password are required");
+            response.sendRedirect(request.getContextPath() + "/invalid-user.jsp?reason=missingFields");
         return;
     }
 
     try {
         if (AppDao.createUser(username, password)) {
-            response.sendRedirect("login.jsp");
+                response.sendRedirect(request.getContextPath() + "/login.jsp?registered=true");
             return;
         }
-        response.sendError(HttpServletResponse.SC_CONFLICT, "Unable to create account");
+            response.sendRedirect(request.getContextPath() + "/invalid-user.jsp?reason=accountExists");
     } catch (Exception e) {
-        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+            response.sendRedirect(request.getContextPath() + "/invalid-user.jsp?reason=registrationError");
     }
 }
 }

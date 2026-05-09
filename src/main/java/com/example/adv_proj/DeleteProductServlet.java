@@ -7,14 +7,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/admin/products/delete")
+@WebServlet("/products/delete")
 public class DeleteProductServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
             String user = (String) request.getAttribute("user");
-            if (!AppDao.isAdmin(user)) {
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Admin access required");
+            if (user == null || user.isBlank()) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Sign in required");
                 return;
             }
 
@@ -25,7 +25,7 @@ public class DeleteProductServlet extends HttpServlet {
             }
 
             AppDao.deleteProduct(Integer.parseInt(idValue));
-            response.sendRedirect("ProductsMain");
+            response.sendRedirect(request.getContextPath() + "/ProductsMain");
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product id must be numeric");
         } catch (Exception e) {

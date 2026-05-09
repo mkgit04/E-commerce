@@ -31,7 +31,7 @@ public class DeleteAccountServlet extends HttpServlet {
             }
             clearCookie(response, "SESSION_ID");
             clearCookie(response, "AUTH_TOKEN");
-            response.sendRedirect("login.jsp");
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
         } catch (Exception e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }
