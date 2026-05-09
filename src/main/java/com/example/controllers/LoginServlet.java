@@ -50,7 +50,8 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/invalid-user.jsp?reason=invalidCredentials");
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unable to sign in right now");
         }
     }
 }

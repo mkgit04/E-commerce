@@ -35,7 +35,8 @@ public class DeleteAccountServlet extends HttpServlet {
             clearCookie(response, "AUTH_TOKEN");
             response.sendRedirect(request.getContextPath() + "/login.jsp");
         } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unable to delete account right now");
         }
     }
 
