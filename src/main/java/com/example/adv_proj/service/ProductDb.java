@@ -1,4 +1,4 @@
-package com.example.adv_proj;
+package com.example.adv_proj.service;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;

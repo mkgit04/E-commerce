@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.example.adv_proj.AppDao;
+import com.example.adv_proj.service.AppDao;
 
 @WebServlet("/delete-account")
 public class DeleteAccountServlet extends HttpServlet {

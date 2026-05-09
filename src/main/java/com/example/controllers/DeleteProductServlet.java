@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.example.adv_proj.AppDao;
+import com.example.adv_proj.service.AppDao;
 
 @WebServlet("/products/delete")
 public class DeleteProductServlet extends HttpServlet {

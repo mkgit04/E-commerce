@@ -1,7 +1,8 @@
 package com.example.controllers;
 
-import com.example.adv_proj.AppDao;
 import com.example.adv_proj.pojo.Product;
+import com.example.adv_proj.service.AppDao;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

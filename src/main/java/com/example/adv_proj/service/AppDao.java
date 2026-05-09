@@ -1,4 +1,4 @@
-package com.example.adv_proj;
+package com.example.adv_proj.service;
 
 import com.example.adv_proj.pojo.Product;
 import com.example.adv_proj.pojo.Review;

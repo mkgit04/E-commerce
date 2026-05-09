@@ -2,8 +2,8 @@ package com.example.controllers;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.adv_proj.AppDao;
-import com.example.adv_proj.ProductDb;
+import com.example.adv_proj.service.AppDao;
+import com.example.adv_proj.service.ProductDb;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;

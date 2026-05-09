@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-import com.example.adv_proj.AppDao;
+import com.example.adv_proj.service.AppDao;
 
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
