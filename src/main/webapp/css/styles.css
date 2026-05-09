@@ -111,6 +111,11 @@ button {
   font: inherit;
 }
 
+select,
+textarea {
+  font: inherit;
+}
+
 input {
   width: 100%;
   padding: 14px 16px;
@@ -125,6 +130,29 @@ input:focus {
   outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+select,
+textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 96px;
 }
 
 button,
@@ -254,10 +282,78 @@ button:active,
   letter-spacing: 0.08em;
 }
 
+.form-label {
+  display: block;
+  color: #0f172a;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
 .detail-value {
   color: #0f172a;
   font-size: 1.05rem;
   font-weight: 700;
+}
+
+.review-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.review-card {
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(255, 255, 255, 0.7);
+  display: grid;
+  gap: 10px;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.review-rating {
+  color: #f59e0b;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+.review-title {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.review-comment {
+  margin: 0;
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.success-message,
+.error-message {
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin: 0;
+  font-weight: 600;
+}
+
+.success-message {
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
 }
 
 hr {

@@ -31,8 +31,8 @@
         <hr />
         <section class="panel stack">
             <div>
-                <h2 class="section-title">Reviews / Feedback</h2>
-                <p class="muted">Review submission can be attached to a reviews table in the next backend iteration.</p>
+                <h2 class="section-title">All Products</h2>
+                <p class="muted">All products at database listed here.</p>
             </div>
         </section>
 
@@ -51,6 +51,10 @@
                             <button type="submit" class="button-link secondary">Remove</button>
                         </form>
                     </div>
+                    <div class="toolbar-group">
+                        <a class="button-link" href="${pageContext.request.contextPath}/reviews/new?productId=${item.id}">Submit review</a>
+                        <a class="button-link ghost" href="${pageContext.request.contextPath}/reviews/view?productId=${item.id}">View reviews</a>
+                    </div>
                 </article>
             </c:forEach>
         </section>
@@ -67,13 +71,6 @@
                 </div>
                 <button type="submit">Add product</button>
             </form>
-        </section>
-        <hr />
-        <section class="panel stack">
-            <div>
-                <h2 class="section-title">Reviews / Feedback</h2>
-                <p class="muted">Review submission can be attached to a reviews table in the next backend iteration.</p>
-            </div>
         </section>
     </div>
 </main>

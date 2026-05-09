@@ -36,7 +36,7 @@
                     <h2 class="section-title">Edit product</h2>
                     <p class="muted">Update the name and price, then save your changes.</p>
                 </div>
-                <form method="post" action="products/update" class="form-stack">
+                <form method="post" action="${pageContext.request.contextPath}/products/update" class="form-stack">
                     <input type="hidden" name="id" value="${product.id}" />
                     <input type="text" name="name" value="${product.name}" required />
                     <input type="number" step="0.01" name="price" value="${product.price}" required />
@@ -45,8 +45,8 @@
             </section>
 
             <div class="toolbar-group">
-                <a class="button-link ghost" href="ProductsMain">Back to products</a>
-                <form method="post" action="products/delete">
+                <a class="button-link ghost" href="${pageContext.request.contextPath}/ProductsMain">Back to products</a>
+                <form method="post" action="${pageContext.request.contextPath}/products/delete">
                     <input type="hidden" name="id" value="${product.id}" />
                     <button type="submit" class="button-link secondary">Delete product</button>
                 </form>
