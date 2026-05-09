@@ -6,11 +6,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.example.adv_proj.AppDao;
 
 @WebServlet("/reviews/add")
 public class AddReviewServlet extends HttpServlet {
+
+    private static final Logger LOGGER = Logger.getLogger(AddReviewServlet.class.getName());
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String user = (String) request.getAttribute("user");
@@ -51,7 +55,7 @@ public class AddReviewServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid product or rating value");
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to submit review", e);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unable to submit review right now");
         }
     }

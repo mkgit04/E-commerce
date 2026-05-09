@@ -14,9 +14,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+
+    private static final Logger LOGGER = Logger.getLogger(LoginServlet.class.getName());
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username = request.getParameter("username");
@@ -50,8 +54,8 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/invalid-user.jsp?reason=invalidCredentials");
             }
         } catch (Exception e) {
-                e.printStackTrace();
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unable to sign in right now");
+            LOGGER.log(Level.SEVERE, "Failed to sign in user", e);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unable to sign in right now");
         }
     }
 }

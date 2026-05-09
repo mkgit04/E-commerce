@@ -10,8 +10,12 @@ import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ProductDb {
+
+    private static final Logger LOGGER = Logger.getLogger(ProductDb.class.getName());
 
     public static List<Product> getProductList(String user) throws ClassNotFoundException, SQLException {
 
@@ -43,24 +47,11 @@ public class ProductDb {
             String cached = jedis.get("products");
 
             if (cached != null) {
-                System.out.println(">>> FROM REDIS CACHE");
-
                 Type type = new TypeToken<ArrayList<Product>>() {
                 }.getType();
 
-                // "["id": 3 , "name": note , "price":40]"
-
                 return gson.fromJson(cached, type);
             }
-
-
-//        System.out.println("Hitting the db..........");
-//
-//        try {
-//            Thread.sleep(5000);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
 
 
             String url = "jdbc:mysql://localhost:3306/products?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
@@ -94,10 +85,9 @@ public class ProductDb {
 
             return products;
         } catch (NumberFormatException | JsonSyntaxException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to load products from cache or database", e);
+            throw new RuntimeException("Unable to load products", e);
         }
-        return null;
 
 
     }

@@ -7,11 +7,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.example.adv_proj.AppDao;
 
 @WebServlet("/delete-account")
 public class DeleteAccountServlet extends HttpServlet {
+
+    private static final Logger LOGGER = Logger.getLogger(DeleteAccountServlet.class.getName());
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String user = (String) request.getAttribute("user");
@@ -35,7 +39,7 @@ public class DeleteAccountServlet extends HttpServlet {
             clearCookie(response, "AUTH_TOKEN");
             response.sendRedirect(request.getContextPath() + "/login.jsp");
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to delete account for user " + user, e);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unable to delete account right now");
         }
     }

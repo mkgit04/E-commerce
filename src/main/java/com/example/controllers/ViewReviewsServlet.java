@@ -12,9 +12,13 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet("/reviews/view")
 public class ViewReviewsServlet extends HttpServlet {
+
+    private static final Logger LOGGER = Logger.getLogger(ViewReviewsServlet.class.getName());
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String productIdValue = request.getParameter("productId");
@@ -40,7 +44,7 @@ public class ViewReviewsServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product id must be numeric");
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to load reviews", e);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unable to load reviews right now");
         }
     }

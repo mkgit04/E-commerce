@@ -10,9 +10,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet("/product/edit")
 public class EditProductServlet extends HttpServlet {
+
+    private static final Logger LOGGER = Logger.getLogger(EditProductServlet.class.getName());
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String idValue = request.getParameter("id");
@@ -35,7 +39,7 @@ public class EditProductServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product id must be numeric");
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to load product for edit", e);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unable to load product right now");
         }
     }

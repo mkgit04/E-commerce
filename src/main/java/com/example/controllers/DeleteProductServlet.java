@@ -6,11 +6,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.example.adv_proj.AppDao;
 
 @WebServlet("/products/delete")
 public class DeleteProductServlet extends HttpServlet {
+
+    private static final Logger LOGGER = Logger.getLogger(DeleteProductServlet.class.getName());
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
@@ -31,7 +35,7 @@ public class DeleteProductServlet extends HttpServlet {
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product id must be numeric");
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to delete product", e);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unable to delete product right now");
         }
     }
