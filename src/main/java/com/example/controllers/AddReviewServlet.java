@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.example.adv_proj.service.AppDao;
+import com.example.adv_proj.service.ValidationUtil;
 
 @WebServlet("/reviews/add")
 public class AddReviewServlet extends HttpServlet {
@@ -28,19 +29,24 @@ public class AddReviewServlet extends HttpServlet {
         String title = request.getParameter("title");
         String comment = request.getParameter("comment");
 
-        if (productIdValue == null || productIdValue.isBlank() || ratingValue == null || ratingValue.isBlank()) {
+        if (ValidationUtil.isNullOrBlank(productIdValue) || ValidationUtil.isNullOrBlank(ratingValue)) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product and rating are required");
+            return;
+        }
+
+        if (!ValidationUtil.isValidProductId(productIdValue)) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, ValidationUtil.INVALID_PRODUCT_ID);
+            return;
+        }
+
+        if (!ValidationUtil.isValidRating(ratingValue)) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, ValidationUtil.INVALID_RATING);
             return;
         }
 
         try {
             int productId = Integer.parseInt(productIdValue);
             int rating = Integer.parseInt(ratingValue);
-
-            if (rating < 1 || rating > 5) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Rating must be between 1 and 5");
-                return;
-            }
 
             boolean created = AppDao.addReview(productId, user, rating,
                     title == null ? null : title.trim(),

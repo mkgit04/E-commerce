@@ -23,6 +23,7 @@
         .panel-header { margin-bottom: 18px; }
         .section-title { font-size: clamp(1.25rem, 2.2vw, 1.75rem); margin: 0 0 10px; color: #0f172a; letter-spacing: -0.02em; }
         input, select, textarea { width: 100%; padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 14px; background: rgba(255, 255, 255, 0.95); color: #0f172a; font: inherit; }
+        input::placeholder, textarea::placeholder { color: #94a3b8; opacity: 1; font-size: 0.95em; font-weight: 400; }
         input:focus, select:focus, textarea:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12); }
         textarea { resize: vertical; min-height: 96px; }
         .form-label { display: block; color: #0f172a; font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
@@ -74,11 +75,11 @@
                     </div>
                     <div>
                         <label for="title" class="form-label">Title (optional)</label>
-                        <input type="text" id="title" name="title" placeholder="Give your review a title..." />
+                        <input type="text" id="title" name="title" placeholder="Review title" />
                     </div>
                     <div>
                         <label for="comment" class="form-label">Comment (optional)</label>
-                        <textarea id="comment" name="comment" rows="4" placeholder="Share your detailed thoughts..."></textarea>
+                        <textarea id="comment" name="comment" rows="4" placeholder="Your comment"></textarea>
                     </div>
                     <button type="submit">Submit review</button>
                 </form>

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,6 +49,11 @@
                     <h2 class="section-title">Product information</h2>
                     <p class="muted">Change the name and price for this product.</p>
                 </div>
+                <c:if test="${not empty error}">
+                  <div style="padding: 12px 16px; border-radius: 10px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #dc2626; font-weight: 600; margin-bottom: 16px;">
+                    ${error}
+                  </div>
+                </c:if>
                 <form method="post" action="${pageContext.request.contextPath}/products/update" class="form-stack">
                     <input type="hidden" name="id" value="${product.id}" />
                     <div>

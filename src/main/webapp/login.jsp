@@ -1,3 +1,5 @@
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -23,9 +25,14 @@
             <h2 class="section-title">Login</h2>
             <p class="muted">Use your existing account credentials.</p>
           </div>
+          <c:if test="${not empty error and fn:trim(error) ne ''}">
+            <div style="padding: 12px 16px; border-radius: 10px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #dc2626; font-weight: 600; margin-bottom: 16px;">
+              ${error}
+            </div>
+          </c:if>
           <form method="post" action="login" class="form-stack">
-            <input type="text" name="username" placeholder="Username" required />
-            <input type="password" name="password" placeholder="Password" required />
+            <input type="text" name="username" placeholder="Enter username" required />
+            <input type="password" name="password" placeholder="Enter password" required />
             <button type="submit">Login</button>
           </form>
           <div>

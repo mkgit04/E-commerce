@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -39,6 +40,7 @@
         .field-row { display: grid; gap: 12px; }
         .split-grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
         input, select, textarea { width: 100%; padding: 14px 16px; border: 1px solid #cbd5e1; border-radius: 14px; background: rgba(255, 255, 255, 0.95); color: #0f172a; font: inherit; transition: border-color 160ms ease, box-shadow 160ms ease; }
+        input::placeholder, textarea::placeholder { color: #94a3b8; opacity: 1; font-size: 0.95em; font-weight: 400; }
         input:focus, select:focus, textarea:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12); }
         textarea { resize: vertical; min-height: 96px; }
         hr { border: 0; height: 1px; margin: 24px 0; background: linear-gradient(90deg, transparent, rgba(148, 163, 184, 0.6), transparent); }
@@ -57,8 +59,8 @@
                     <p class="muted">Logged in as <strong>${user}</strong><c:if test="${isAdmin}"><span class="admin-badge">Admin</span></c:if></p>
                 </div>
                 <div class="toolbar-group">
-                    <a class="button-link ghost" href="logout">Sign out</a>
-                    <form method="post" action="delete-account">
+                    <a class="button-link ghost" href="${pageContext.request.contextPath}/logout">Sign out</a>
+                    <form method="post" action="${pageContext.request.contextPath}/delete-account">
                         <button type="submit" class="button-link secondary">Delete account</button>
                     </form>
                 </div>
@@ -74,10 +76,15 @@
                 <h2 class="section-title">Manage products</h2>
                 <p class="muted">Add, delete, or open a product to edit its details.</p>
             </div>
-            <form method="post" action="products/add" class="form-stack">
+            <c:if test="${not empty error and fn:trim(error) ne ''}">
+              <div style="padding: 12px 16px; border-radius: 10px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #dc2626; font-weight: 600; margin-bottom: 16px;">
+                ${error}
+              </div>
+            </c:if>
+            <form method="post" action="${pageContext.request.contextPath}/products/add" class="form-stack">
                 <div class="field-row split-grid">
-                    <input type="text" name="name" placeholder="Product name" required />
-                    <input type="number" step="0.01" name="price" placeholder="Price" required />
+                    <input type="text" name="name" placeholder="Enter product name" required />
+                    <input type="number" step="0.01" name="price" placeholder="Enter price" required />
                 </div>
                 <button type="submit">Add product</button>
             </form>
@@ -103,7 +110,7 @@
                     <div class="toolbar-group">
                         <a class="button-link" href="${pageContext.request.contextPath}/product/edit?id=${item.id}">Edit</a>
                         <c:if test="${isAdmin}">
-                            <form method="post" action="products/delete">
+                            <form method="post" action="${pageContext.request.contextPath}/products/delete">
                                 <input type="hidden" name="id" value="${item.id}" />
                                 <button type="submit" class="button-link secondary">Remove</button>
                             </form>

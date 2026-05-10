@@ -126,6 +126,14 @@ input {
   transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: #94a3b8;
+  opacity: 1;
+  font-size: 0.95em;
+  font-weight: 400;
+}
+
 input:focus {
   outline: none;
   border-color: #2563eb;
