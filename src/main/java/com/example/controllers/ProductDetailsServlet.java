@@ -1,7 +1,7 @@
 package com.example.controllers;
 
 import com.example.adv_proj.pojo.Product;
-import com.example.adv_proj.service.AppDao;
+import com.example.adv_proj.service.ProductDao;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -28,7 +28,7 @@ public class ProductDetailsServlet extends HttpServlet {
         }
 
         try {
-            Product product = AppDao.getProductById(Integer.parseInt(idValue));
+            Product product = ProductDao.getProductById(Integer.parseInt(idValue));
             if (product == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Product not found");
                 return;

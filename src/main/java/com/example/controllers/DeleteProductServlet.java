@@ -11,8 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.example.adv_proj.pojo.Product;
-import com.example.adv_proj.service.AppDao;
 import com.example.adv_proj.service.ProductDb;
+import com.example.adv_proj.service.ProductDao;
 import com.example.adv_proj.service.ValidationUtil;
 
 @WebServlet("/products/delete")
@@ -47,7 +47,7 @@ public class DeleteProductServlet extends HttpServlet {
                 return;
             }
 
-            AppDao.deleteProduct(Integer.parseInt(idValue));
+            ProductDao.deleteProduct(Integer.parseInt(idValue));
             response.sendRedirect(request.getContextPath() + "/ProductsMain");
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product id must be numeric");

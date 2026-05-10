@@ -10,7 +10,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.example.adv_proj.service.AppDao;
+import com.example.adv_proj.service.SessionDao;
+import com.example.adv_proj.service.UserDao;
 
 @WebServlet("/delete-account")
 public class DeleteAccountServlet extends HttpServlet {
@@ -26,12 +27,12 @@ public class DeleteAccountServlet extends HttpServlet {
         }
 
         try {
-            AppDao.deleteUser(user);
+            UserDao.deleteUser(user);
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     if ("SESSION_ID".equals(cookie.getName())) {
-                        AppDao.deleteSession(cookie.getValue());
+                        SessionDao.deleteSession(cookie.getValue());
                     }
                 }
             }

@@ -1,7 +1,7 @@
 package com.example.controllers;
 
 import com.example.adv_proj.pojo.Product;
-import com.example.adv_proj.service.AppDao;
+import com.example.adv_proj.service.ProductDao;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -29,7 +29,7 @@ public class SubmitReviewPageServlet extends HttpServlet {
 
         try {
             int productId = Integer.parseInt(productIdValue);
-            Product product = AppDao.getProductById(productId);
+            Product product = ProductDao.getProductById(productId);
             if (product == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Product not found");
                 return;

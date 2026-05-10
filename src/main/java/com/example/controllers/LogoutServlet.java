@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-import com.example.adv_proj.service.AppDao;
+import com.example.adv_proj.service.SessionDao;
 
 @WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
@@ -18,7 +18,7 @@ public class LogoutServlet extends HttpServlet {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("SESSION_ID".equals(cookie.getName())) {
-                    AppDao.deleteSession(cookie.getValue());
+                    SessionDao.deleteSession(cookie.getValue());
                 }
             }
         }

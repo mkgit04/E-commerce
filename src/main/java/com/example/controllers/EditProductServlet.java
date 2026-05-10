@@ -1,7 +1,7 @@
 package com.example.controllers;
 
 import com.example.adv_proj.pojo.Product;
-import com.example.adv_proj.service.AppDao;
+import com.example.adv_proj.service.ProductDao;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -20,6 +20,10 @@ public class EditProductServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(EditProductServlet.class.getName());
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        if (!isAdmin(request, response)) {
+            return;
+        }
+
         String idValue = request.getParameter("id");
 
         if (idValue == null || idValue.isBlank()) {
@@ -28,7 +32,7 @@ public class EditProductServlet extends HttpServlet {
         }
 
         try {
-            Product product = AppDao.getProductById(Integer.parseInt(idValue));
+            Product product = ProductDao.getProductById(Integer.parseInt(idValue));
             if (product == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Product not found");
                 return;
@@ -43,5 +47,13 @@ public class EditProductServlet extends HttpServlet {
             LOGGER.log(Level.SEVERE, "Failed to load product for edit", e);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unable to load product right now");
         }
+    }
+
+    private boolean isAdmin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (!Boolean.TRUE.equals(request.getAttribute("isAdmin"))) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Admin access required");
+            return false;
+        }
+        return true;
     }
 }

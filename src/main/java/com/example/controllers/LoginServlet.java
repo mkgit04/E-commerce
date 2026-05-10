@@ -2,8 +2,8 @@ package com.example.controllers;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.example.adv_proj.service.AppDao;
 import com.example.adv_proj.service.ProductDb;
+import com.example.adv_proj.service.SessionDao;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -29,7 +29,7 @@ public class LoginServlet extends HttpServlet {
         try {
             if (ProductDb.validateUser(username, password)) {
                 String sessionId = UUID.randomUUID().toString();
-                AppDao.createSession(sessionId, username, 3600);
+                SessionDao.createSession(sessionId, username, 3600);
 
                 Cookie sessionCookie = new Cookie("SESSION_ID", sessionId);
                 sessionCookie.setPath("/");

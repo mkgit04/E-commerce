@@ -54,15 +54,9 @@ public class ProductDb {
             }
 
 
-            String url = "jdbc:mysql://localhost:3306/products?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-            String dbUser = "root";
-            String password = "root";
-
             ArrayList<Product> products = new ArrayList<>();
 
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            try (Connection connection = DriverManager.getConnection(url, dbUser, password);
+            try (Connection connection = DatabaseConnection.getConnection();
 
                  Statement statement = connection.createStatement();
 
@@ -93,14 +87,7 @@ public class ProductDb {
     }
 
     public static boolean validateUser(String username, String password) throws Exception {
-
-        String url = "jdbc:mysql://localhost:3306/products?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-        String dbUser = "root";
-        String dbPassword = "root";
-
-        Class.forName("com.mysql.cj.jdbc.Driver");
-
-        try (Connection connection = DriverManager.getConnection(url, dbUser, dbPassword);
+        try (Connection connection = DatabaseConnection.getConnection();
              PreparedStatement ps = connection.prepareStatement(
                      "SELECT * FROM users WHERE username=? AND password=?")) {
 

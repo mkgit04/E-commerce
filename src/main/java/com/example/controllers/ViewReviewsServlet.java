@@ -2,7 +2,8 @@ package com.example.controllers;
 
 import com.example.adv_proj.pojo.Product;
 import com.example.adv_proj.pojo.Review;
-import com.example.adv_proj.service.AppDao;
+import com.example.adv_proj.service.ProductDao;
+import com.example.adv_proj.service.ReviewDao;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -31,13 +32,13 @@ public class ViewReviewsServlet extends HttpServlet {
 
         try {
             int productId = Integer.parseInt(productIdValue);
-            Product product = AppDao.getProductById(productId);
+            Product product = ProductDao.getProductById(productId);
             if (product == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Product not found");
                 return;
             }
 
-            List<Review> reviews = AppDao.getReviewsByProduct(productId);
+            List<Review> reviews = ReviewDao.getReviewsByProduct(productId);
             request.setAttribute("product", product);
             request.setAttribute("reviews", reviews);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/view-reviews.jsp");

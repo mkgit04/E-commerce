@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-import com.example.adv_proj.service.AppDao;
+import com.example.adv_proj.service.UserDao;
 import com.example.adv_proj.service.ValidationUtil;
 
 @WebServlet("/register")
@@ -37,7 +37,7 @@ public class RegisterServlet extends HttpServlet {
         }
 
         try {
-            if (AppDao.createUser(username, password)) {
+            if (UserDao.createUser(username, password)) {
                 response.sendRedirect(request.getContextPath() + "/login.jsp?registered=true");
                 return;
             }

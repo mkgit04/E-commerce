@@ -36,7 +36,7 @@ public class AuthFilter implements Filter {
 
         request.setAttribute("user", user);
         try {
-            request.setAttribute("isAdmin", AppDao.isAdmin(user));
+            request.setAttribute("isAdmin", UserDao.isAdmin(user));
         } catch (Exception e) {
             request.setAttribute("isAdmin", false);
         }
@@ -50,7 +50,7 @@ public class AuthFilter implements Filter {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("SESSION_ID".equals(cookie.getName())) {
-                    String user = AppDao.getSessionUser(cookie.getValue());
+                    String user = SessionDao.getSessionUser(cookie.getValue());
                     if (user != null) {
                         return user;
                     }

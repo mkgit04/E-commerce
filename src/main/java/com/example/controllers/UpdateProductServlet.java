@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.example.adv_proj.pojo.Product;
-import com.example.adv_proj.service.AppDao;
+import com.example.adv_proj.service.ProductDao;
 import com.example.adv_proj.service.ValidationUtil;
 
 @WebServlet("/products/update")
@@ -24,6 +24,11 @@ public class UpdateProductServlet extends HttpServlet {
             String user = (String) request.getAttribute("user");
             if (user == null || user.isBlank()) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Sign in required");
+                return;
+            }
+
+            if (!Boolean.TRUE.equals(request.getAttribute("isAdmin"))) {
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Admin access required");
                 return;
             }
 
@@ -57,7 +62,7 @@ public class UpdateProductServlet extends HttpServlet {
 
             int productId = Integer.parseInt(idValue);
             float price = Float.parseFloat(priceValue);
-            AppDao.updateProduct(productId, name.trim(), price);
+            ProductDao.updateProduct(productId, name.trim(), price);
             response.sendRedirect(request.getContextPath() + "/product?id=" + productId);
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product id and price must be numeric");
@@ -71,7 +76,7 @@ public class UpdateProductServlet extends HttpServlet {
         try {
             if (ValidationUtil.isValidProductId(productIdValue)) {
                 int productId = Integer.parseInt(productIdValue);
-                Product product = AppDao.getProductById(productId);
+                Product product = ProductDao.getProductById(productId);
                 if (product != null) {
                     request.setAttribute("product", product);
                 }
@@ -79,7 +84,7 @@ public class UpdateProductServlet extends HttpServlet {
             request.getRequestDispatcher("/edit-product.jsp").forward(request, response);
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Failed to load product for edit", e);
-            throw new ServletException("Unable to load product", e);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Unable to load product right now");
         }
     }
 }

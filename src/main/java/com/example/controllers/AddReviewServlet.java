@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.example.adv_proj.service.AppDao;
+import com.example.adv_proj.service.ReviewDao;
 import com.example.adv_proj.service.ValidationUtil;
 
 @WebServlet("/reviews/add")
@@ -48,7 +48,7 @@ public class AddReviewServlet extends HttpServlet {
             int productId = Integer.parseInt(productIdValue);
             int rating = Integer.parseInt(ratingValue);
 
-            boolean created = AppDao.addReview(productId, user, rating,
+                boolean created = ReviewDao.addReview(productId, user, rating,
                     title == null ? null : title.trim(),
                     comment == null ? null : comment.trim());
 

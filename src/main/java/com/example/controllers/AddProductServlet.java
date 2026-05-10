@@ -11,8 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.example.adv_proj.pojo.Product;
-import com.example.adv_proj.service.AppDao;
 import com.example.adv_proj.service.ProductDb;
+import com.example.adv_proj.service.ProductDao;
 import com.example.adv_proj.service.ValidationUtil;
 
 @WebServlet("/products/add")
@@ -55,7 +55,7 @@ public class AddProductServlet extends HttpServlet {
             }
 
             float price = Float.parseFloat(priceValue);
-            AppDao.addProduct(name.trim(), price);
+            ProductDao.addProduct(name.trim(), price);
             response.sendRedirect(request.getContextPath() + "/ProductsMain");
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Price must be numeric");
