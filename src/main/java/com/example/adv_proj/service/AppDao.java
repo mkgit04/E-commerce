@@ -68,12 +68,21 @@ public class AppDao {
     public static boolean createUser(String username, String password) throws Exception {
         try (Connection connection = getConnection()) {
             String passwordColumn = resolveUserPasswordColumn(connection);
-            
-            String sql = "INSERT INTO users (username, " + passwordColumn + ") VALUES (?, ?)";
-            
+            String roleColumn = resolveRoleColumn(connection);
+
+            String sql;
+            if (roleColumn == null) {
+                sql = "INSERT INTO users (username, " + passwordColumn + ") VALUES (?, ?)";
+            } else {
+                sql = "INSERT INTO users (username, " + passwordColumn + ", " + roleColumn + ") VALUES (?, ?, ?)";
+            }
+
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setString(1, username.trim());
                 ps.setString(2, password);
+                if (roleColumn != null) {
+                    ps.setString(3, "user");
+                }
                 return ps.executeUpdate() > 0;
             }
         }

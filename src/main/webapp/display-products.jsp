@@ -20,6 +20,7 @@
         .section-title, .detail-title { font-size: clamp(1.25rem, 2.2vw, 1.75rem); }
         .muted { margin: 0; color: #64748b; }
         .pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgba(37, 99, 235, 0.08); color: #1d4ed8; font-weight: 700; width: fit-content; }
+        .admin-badge { display: inline-flex; align-items: center; gap: 8px; margin-left: 10px; padding: 6px 12px; border-radius: 999px; background: rgba(16, 185, 129, 0.12); color: #047857; font-size: 0.9rem; font-weight: 800; vertical-align: middle; }
         .toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
         .toolbar-group { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
         a { color: #2563eb; text-decoration: none; }
@@ -53,7 +54,7 @@
                 <div>
                     <p class="pill">Product center</p>
                     <h1 class="hero-title">Product list</h1>
-                    <p class="muted">Logged in as <strong>${user}</strong></p>
+                    <p class="muted">Logged in as <strong>${user}</strong><c:if test="${isAdmin}"><span class="admin-badge">Admin</span></c:if></p>
                 </div>
                 <div class="toolbar-group">
                     <a class="button-link ghost" href="logout">Sign out</a>
@@ -67,6 +68,7 @@
 
 
         <hr />
+        <c:if test="${isAdmin}">
                 <section class="panel admin-panel">
             <div>
                 <h2 class="section-title">Manage products</h2>
@@ -80,6 +82,7 @@
                 <button type="submit">Add product</button>
             </form>
         </section>
+        </c:if>
         <section class="panel stack">
             <div>
                 <h2 class="section-title">All Products</h2>
@@ -99,10 +102,12 @@
                     </a>
                     <div class="toolbar-group">
                         <a class="button-link" href="${pageContext.request.contextPath}/product/edit?id=${item.id}">Edit</a>
-                        <form method="post" action="products/delete">
-                            <input type="hidden" name="id" value="${item.id}" />
-                            <button type="submit" class="button-link secondary">Remove</button>
-                        </form>
+                        <c:if test="${isAdmin}">
+                            <form method="post" action="products/delete">
+                                <input type="hidden" name="id" value="${item.id}" />
+                                <button type="submit" class="button-link secondary">Remove</button>
+                            </form>
+                        </c:if>
                     </div>
                     <div class="toolbar-group">
                         <a class="button-link" href="${pageContext.request.contextPath}/reviews/new?productId=${item.id}">Submit review</a>

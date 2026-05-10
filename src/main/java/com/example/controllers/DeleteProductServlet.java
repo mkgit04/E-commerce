@@ -24,6 +24,12 @@ public class DeleteProductServlet extends HttpServlet {
                 return;
             }
 
+            Boolean isAdmin = (Boolean) request.getAttribute("isAdmin");
+            if (!Boolean.TRUE.equals(isAdmin)) {
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Admin access required");
+                return;
+            }
+
             String idValue = request.getParameter("id");
             if (idValue == null || idValue.isBlank()) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product id is required");

@@ -24,6 +24,12 @@ public class AddProductServlet extends HttpServlet {
                 return;
             }
 
+            Boolean isAdmin = (Boolean) request.getAttribute("isAdmin");
+            if (!Boolean.TRUE.equals(isAdmin)) {
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Admin access required");
+                return;
+            }
+
             String name = request.getParameter("name");
             String priceValue = request.getParameter("price");
             if (name == null || name.isBlank() || priceValue == null || priceValue.isBlank()) {
