@@ -108,8 +108,8 @@
                         </div>
                     </a>
                     <div class="toolbar-group">
-                        <a class="button-link" href="${pageContext.request.contextPath}/product/edit?id=${item.id}">Edit</a>
                         <c:if test="${isAdmin}">
+                        <a class="button-link" href="${pageContext.request.contextPath}/product/edit?id=${item.id}">Edit</a>
                             <form method="post" action="${pageContext.request.contextPath}/products/delete">
                                 <input type="hidden" name="id" value="${item.id}" />
                                 <button type="submit" class="button-link secondary">Remove</button>
