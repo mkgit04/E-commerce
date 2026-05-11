@@ -29,6 +29,7 @@ public final class UserDao {
         try (Connection connection = DatabaseConnection.getConnection()) {
             String passwordColumn = resolveUserPasswordColumn(connection);
             String roleColumn = resolveRoleColumn(connection);
+            String passwordHash = PasswordUtil.hashPassword(password);
 
             String sql;
             if (roleColumn == null) {
@@ -39,7 +40,7 @@ public final class UserDao {
 
             try (PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setString(1, username.trim());
-                ps.setString(2, password);
+                ps.setString(2, passwordHash);
                 if (roleColumn != null) ps.setString(3, "user");
                 return ps.executeUpdate() > 0;
             }

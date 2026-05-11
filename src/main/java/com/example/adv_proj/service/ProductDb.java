@@ -87,15 +87,47 @@ public class ProductDb {
     }
 
     public static boolean validateUser(String username, String password) throws Exception {
-        try (Connection connection = DatabaseConnection.getConnection();
-             PreparedStatement ps = connection.prepareStatement(
-                     "SELECT * FROM users WHERE username=? AND password=?")) {
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String passwordColumn = resolveUserPasswordColumn(connection);
 
-            ps.setString(1, username);
-            ps.setString(2, password);
+            String storedPassword;
+            try (PreparedStatement ps = connection.prepareStatement(
+                    "SELECT " + passwordColumn + " FROM users WHERE username=?")) {
+                ps.setString(1, username);
 
-            ResultSet rs = ps.executeQuery();
-            return rs.next();
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next()) {
+                        return false;
+                    }
+                    storedPassword = rs.getString(1);
+                }
+            }
+
+            boolean verified = PasswordUtil.verifyPassword(password, storedPassword);
+            if (verified && !PasswordUtil.isHashedFormat(storedPassword)) {
+                try (PreparedStatement update = connection.prepareStatement(
+                        "UPDATE users SET " + passwordColumn + "=? WHERE username=?")) {
+                    update.setString(1, PasswordUtil.hashPassword(password));
+                    update.setString(2, username);
+                    update.executeUpdate();
+                }
+            }
+
+            return verified;
         }
+    }
+
+    private static boolean hasColumn(Connection connection, String tableName, String columnName) throws SQLException {
+        return connection.getMetaData().getColumns(connection.getCatalog(), null, tableName, columnName).next();
+    }
+
+    private static String resolveUserPasswordColumn(Connection connection) throws SQLException {
+        if (hasColumn(connection, "users", "password")) {
+            return "password";
+        }
+        if (hasColumn(connection, "users", "password_hash")) {
+            return "password_hash";
+        }
+        throw new SQLException("No password column found in users table");
     }
 }
