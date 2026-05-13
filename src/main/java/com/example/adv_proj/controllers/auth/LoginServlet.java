@@ -1,4 +1,4 @@
-package com.example.controllers;
+package com.example.adv_proj.controllers.auth;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

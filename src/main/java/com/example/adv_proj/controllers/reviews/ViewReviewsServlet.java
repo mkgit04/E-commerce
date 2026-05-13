@@ -1,4 +1,4 @@
-package com.example.controllers;
+package com.example.adv_proj.controllers.reviews;
 
 import com.example.adv_proj.pojo.Product;
 import com.example.adv_proj.pojo.Review;

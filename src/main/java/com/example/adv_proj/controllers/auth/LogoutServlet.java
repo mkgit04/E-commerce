@@ -1,4 +1,4 @@
-package com.example.controllers;
+package com.example.adv_proj.controllers.auth;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
