@@ -27,6 +27,11 @@
         .review-rating { color: #f59e0b; font-size: 0.9rem; font-weight: 600; margin-left: 6px; }
         .review-title { margin: 0; color: #0f172a; font-size: 1rem; font-weight: 700; }
         .review-comment { margin: 0; color: #475569; font-size: 0.95rem; line-height: 1.5; }
+        .review-actions { display: flex; gap: 8px; }
+        .review-action-btn { padding: 6px 12px; border: 1px solid rgba(148, 163, 184, 0.22); border-radius: 8px; background: rgba(255, 255, 255, 0.7); color: #0f172a; cursor: pointer; font-size: 0.85rem; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+        .review-action-btn:hover { background: #f1f5f9; border-color: #64748b; }
+        .review-action-btn.delete { color: #dc2626; border-color: rgba(220, 38, 38, 0.3); }
+        .review-action-btn.delete:hover { background: rgba(220, 38, 38, 0.08); border-color: #dc2626; }
         .toolbar-group { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; width: 100%; }
         .button-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 18px; border: 0; border-radius: 999px; background: linear-gradient(135deg, #2563eb, #4f46e5); color: #ffffff; font-weight: 700; cursor: pointer; text-decoration: none; width: 100%; }
         .button-link:hover { transform: translateY(-1px); box-shadow: 0 16px 30px rgba(37, 99, 235, 0.2); }
@@ -71,6 +76,15 @@
                                     </c:if>
                                     <c:if test="${not empty review.comment}">
                                         <p class="review-comment"><c:out value="${review.comment}"/></p>
+                                    </c:if>
+                                    <c:if test="${currentUser != null && currentUser == review.username}">
+                                        <div class="review-actions">
+                                            <a class="review-action-btn" href="${pageContext.request.contextPath}/reviews/edit?reviewId=${review.id}">Edit</a>
+                                            <form style="display: inline;" method="POST" action="${pageContext.request.contextPath}/reviews/delete" onsubmit="return confirm('Are you sure you want to delete this review?');">
+                                                <input type="hidden" name="reviewId" value="${review.id}">
+                                                <button type="submit" class="review-action-btn delete">Delete</button>
+                                            </form>
+                                        </div>
                                     </c:if>
                                 </article>
                             </c:forEach>

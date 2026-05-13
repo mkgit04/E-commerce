@@ -39,8 +39,11 @@ public class ViewReviewsServlet extends HttpServlet {
             }
 
             List<Review> reviews = ReviewDao.getReviewsByProduct(productId);
+            String currentUser = (String) request.getAttribute("user");
+            
             request.setAttribute("product", product);
             request.setAttribute("reviews", reviews);
+            request.setAttribute("currentUser", currentUser);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/view-reviews.jsp");
             dispatcher.forward(request, response);
         } catch (NumberFormatException e) {

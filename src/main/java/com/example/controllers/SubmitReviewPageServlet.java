@@ -20,6 +20,12 @@ public class SubmitReviewPageServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(SubmitReviewPageServlet.class.getName());
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String user = (String) request.getAttribute("user");
+        if (user == null || user.isBlank()) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Sign in required to submit reviews");
+            return;
+        }
+
         String productIdValue = request.getParameter("productId");
 
         if (productIdValue == null || productIdValue.isBlank()) {
@@ -36,6 +42,7 @@ public class SubmitReviewPageServlet extends HttpServlet {
             }
 
             request.setAttribute("product", product);
+            request.setAttribute("currentUser", user);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/submit-review.jsp");
             dispatcher.forward(request, response);
         } catch (NumberFormatException e) {

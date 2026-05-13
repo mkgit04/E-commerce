@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Review</title>
+    <title>Edit Review</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; background: radial-gradient(circle at top, rgba(255,255,255,0.8), rgba(230,240,255,0.4)), linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%); color: #1f2937; min-height: 100vh; }
@@ -43,54 +43,46 @@
     <div class="page-container detail-layout">
         <section class="detail-card stack">
             <div>
-                <p class="pill">Submit review</p>
-                <h1 class="detail-title"><c:out value="${product.name}"/></h1>
-                <p class="muted">Share your rating and feedback for this product.</p>
+                <p class="pill">Edit review</p>
+                <h1 class="detail-title">Update your review</h1>
+                <p class="muted">Modify your rating and feedback for this product.</p>
             </div>
 
-            <c:if test="${param.review eq 'added'}">
-                <p class="success-message">Your review was added successfully.</p>
-            </c:if>
-            <c:if test="${param.review eq 'exists'}">
-                <p class="error-message">You already reviewed this product.</p>
-            </c:if>
-            <c:if test="${not empty error}">
-                <p class="error-message"><c:out value="${error}"/></p>
+            <c:if test="${param.review eq 'updated'}">
+                <p class="success-message">Your review was updated successfully.</p>
             </c:if>
 
             <section class="panel stack">
                 <div class="panel-header">
-                    <h2 class="section-title">Share your feedback</h2>
-                    <p class="muted">Help other users by rating and reviewing this product.</p>
+                    <h2 class="section-title">Edit your feedback</h2>
+                    <p class="muted">Update your rating and comments.</p>
                 </div>
-                <form method="post" action="${pageContext.request.contextPath}/reviews/add" class="form-stack">
-                    <input type="hidden" name="productId" value="${product.id}" />
+                <form method="post" action="${pageContext.request.contextPath}/reviews/update" class="form-stack">
+                    <input type="hidden" name="reviewId" value="${review.id}" />
                     <div>
                         <label for="rating" class="form-label">Rating *</label>
                         <select id="rating" name="rating" required>
-                            <option value="">Choose rating</option>
-                            <option value="5">★★★★★ 5 - Excellent</option>
-                            <option value="4">★★★★☆ 4 - Good</option>
-                            <option value="3">★★★☆☆ 3 - Average</option>
-                            <option value="2">★★☆☆☆ 2 - Poor</option>
-                            <option value="1">★☆☆☆☆ 1 - Very bad</option>
+                            <option value="5" <c:if test="${review.rating == 5}">selected</c:if>>★★★★★ 5 - Excellent</option>
+                            <option value="4" <c:if test="${review.rating == 4}">selected</c:if>>★★★★☆ 4 - Good</option>
+                            <option value="3" <c:if test="${review.rating == 3}">selected</c:if>>★★★☆☆ 3 - Average</option>
+                            <option value="2" <c:if test="${review.rating == 2}">selected</c:if>>★★☆☆☆ 2 - Poor</option>
+                            <option value="1" <c:if test="${review.rating == 1}">selected</c:if>>★☆☆☆☆ 1 - Very bad</option>
                         </select>
                     </div>
                     <div>
                         <label for="title" class="form-label">Title (optional)</label>
-                        <input type="text" id="title" name="title" placeholder="Review title" />
+                        <input type="text" id="title" name="title" placeholder="Review title" value="<c:out value='${review.title}'/>" />
                     </div>
                     <div>
                         <label for="comment" class="form-label">Comment (optional)</label>
-                        <textarea id="comment" name="comment" rows="4" placeholder="Your comment"></textarea>
+                        <textarea id="comment" name="comment" rows="4" placeholder="Your comment"><c:out value="${review.comment}"/></textarea>
                     </div>
-                    <button type="submit">Submit review</button>
+                    <button type="submit">Update review</button>
                 </form>
             </section>
 
             <div class="toolbar-group">
-                <a class="button-link ghost" href="${pageContext.request.contextPath}/product?id=${product.id}">Back to product</a>
-                <a class="button-link" href="${pageContext.request.contextPath}/reviews/view?productId=${product.id}">View reviews</a>
+                <a class="button-link ghost" href="${pageContext.request.contextPath}/reviews/view?productId=${review.productId}">Back to reviews</a>
             </div>
         </section>
     </div>

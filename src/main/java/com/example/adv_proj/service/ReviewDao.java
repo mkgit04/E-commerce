@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class ReviewDao {
-    private ReviewDao() {}
+    private ReviewDao() {
+    }
 
     public static boolean addReview(int productId, String username, int rating, String title, String comment) throws Exception {
         try (Connection connection = DatabaseConnection.getConnection()) {
@@ -57,5 +58,53 @@ public final class ReviewDao {
             }
         }
         return reviews;
+    }
+
+    public static Review getReviewById(int reviewId) throws Exception {
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(
+                     "SELECT id, product_id, username, rating, title, comment, created_at, updated_at " +
+                             "FROM reviews WHERE id=?")) {
+            ps.setInt(1, reviewId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Review(
+                            rs.getInt("id"),
+                            rs.getInt("product_id"),
+                            rs.getString("username"),
+                            rs.getInt("rating"),
+                            rs.getString("title"),
+                            rs.getString("comment"),
+                            rs.getTimestamp("created_at"),
+                            rs.getTimestamp("updated_at")
+                    );
+                }
+            }
+        }
+        return null;
+    }
+
+    public static boolean updateReview(int reviewId, String username, int rating, String title, String comment) throws Exception {
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(
+                     "UPDATE reviews SET rating=?, title=?, comment=?, updated_at=CURRENT_TIMESTAMP " +
+                             "WHERE id=? AND username=?")) {
+            ps.setInt(1, rating);
+            ps.setString(2, title);
+            ps.setString(3, comment);
+            ps.setInt(4, reviewId);
+            ps.setString(5, username);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    public static boolean deleteReview(int reviewId, String username) throws Exception {
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement ps = connection.prepareStatement(
+                     "DELETE FROM reviews WHERE id=? AND username=?")) {
+            ps.setInt(1, reviewId);
+            ps.setString(2, username);
+            return ps.executeUpdate() > 0;
+        }
     }
 }
