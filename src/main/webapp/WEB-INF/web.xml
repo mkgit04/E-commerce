@@ -7,8 +7,23 @@
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
 
+    <context-param>
+        <param-name>showStackTrace</param-name>
+        <param-value>false</param-value>
+    </context-param>
+
     <error-page>
         <error-code>403</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>400</error-code>
+        <location>/error.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>401</error-code>
         <location>/error.jsp</location>
     </error-page>
 

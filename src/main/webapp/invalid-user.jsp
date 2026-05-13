@@ -25,8 +25,8 @@
       </div>
 
       <div class="toolbar-group">
-        <a class="button-link" href="login.jsp">Go to login</a>
-        <a class="button-link ghost" href="register.jsp">Go to sign up</a>
+        <a class="button-link" href="${pageContext.request.contextPath}/login.jsp">Go to login</a>
+        <a class="button-link ghost" href="${pageContext.request.contextPath}/register.jsp">Go to sign up</a>
       </div>
     </section>
   </div>

@@ -40,7 +40,7 @@
           <button type="submit">Create account</button>
         </form>
         <div>
-          <a class="button-link ghost" href="login.jsp">Back to login</a>
+          <a class="button-link ghost" href="${pageContext.request.contextPath}/login.jsp">Back to login</a>
         </div>
       </section>
     </section>
