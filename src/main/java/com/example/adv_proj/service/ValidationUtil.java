@@ -12,7 +12,7 @@ public class ValidationUtil {
     // Validation messages
     public static final String INVALID_USERNAME = "Username must be 3-50 alphanumeric characters (underscore allowed)";
     public static final String INVALID_PASSWORD = "Password must be 6-100 characters";
-    public static final String INVALID_PRODUCT_NAME = "Product name must be 1-255 characters (alphanumeric, spaces, hyphens, periods, commas, parentheses)";
+    public static final String INVALID_PRODUCT_NAME = "Product name must be 1-255 characters (alphanumeric, spaces, hyphens, periods, commas, parentheses) and cannot be numbers only";
     public static final String INVALID_PRICE = "Price must be a positive number (max 999999.99)";
     public static final String INVALID_RATING = "Rating must be an integer between 1 and 5";
     public static final String INVALID_PRODUCT_ID = "Product ID must be a positive integer";
@@ -51,7 +51,28 @@ public class ValidationUtil {
         if (productName == null || productName.isBlank()) {
             return false;
         }
-        return PRODUCT_NAME_PATTERN.matcher(productName.trim()).matches();
+        String trimmed = productName.trim();
+        
+        // Check if it matches the allowed format
+        if (!PRODUCT_NAME_PATTERN.matcher(trimmed).matches()) {
+            return false;
+        }
+        
+        // Check if it contains only digits (and spaces), which is not allowed
+        if (isProductNameNumbersOnly(trimmed)) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Checks if product name contains only digits and whitespace.
+     * @param productName The product name to check
+     * @return true if it contains only digits and spaces, false otherwise
+     */
+    private static boolean isProductNameNumbersOnly(String productName) {
+        return productName.replaceAll("[\\s]", "").matches("^[0-9]+$");
     }
 
     /**
