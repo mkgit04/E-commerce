@@ -46,6 +46,7 @@
 
         <p class="muted">
           <c:choose>
+            <c:when test="${statusCode == 429}">You have sent too many requests in a short period. Please wait a moment and try again.</c:when>
             <c:when test="${not empty message}">${message}</c:when>
             <c:when test="${not empty exception}">${exception.message}</c:when>
             <c:otherwise>We could not complete your request.</c:otherwise>

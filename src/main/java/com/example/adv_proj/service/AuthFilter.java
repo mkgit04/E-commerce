@@ -35,6 +35,11 @@ public class AuthFilter implements Filter {
         }
 
         request.setAttribute("user", user);
+        if (!RequestRateLimiter.allow(user, path)) {
+            response.sendError(429, "Too many requests");
+            return;
+        }
+
         Object jwtRole = request.getAttribute("jwtRole");
         if (jwtRole instanceof String role && !role.isBlank()) {
             request.setAttribute("isAdmin", "admin".equalsIgnoreCase(role));

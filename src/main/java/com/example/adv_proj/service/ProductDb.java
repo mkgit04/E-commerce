@@ -20,28 +20,6 @@ public class ProductDb {
     public static List<Product> getProductList(String user) throws ClassNotFoundException, SQLException {
 
         try (Jedis jedis = new Jedis("localhost", 6379)) {
-            // per user (better than global)
-            String key = "rate:" + user;
-
-            int count = 0;
-
-            String value = jedis.get(key);
-
-            if (value != null) {
-                count = Integer.parseInt(value);
-            }
-            // block if too many requests
-            if (count >= 5) {
-                throw new RuntimeException("Too many requests");
-            }
-
-            // increase counter
-            jedis.incr(key);
-
-            // reset after 10 seconds windo
-            jedis.expire(key, 10);
-
-
             Gson gson = new Gson();
 
             String cached = jedis.get("products");
