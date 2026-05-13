@@ -35,10 +35,15 @@ public class AuthFilter implements Filter {
         }
 
         request.setAttribute("user", user);
-        try {
-            request.setAttribute("isAdmin", UserDao.isAdmin(user));
-        } catch (Exception e) {
-            request.setAttribute("isAdmin", false);
+        Object jwtRole = request.getAttribute("jwtRole");
+        if (jwtRole instanceof String role && !role.isBlank()) {
+            request.setAttribute("isAdmin", "admin".equalsIgnoreCase(role));
+        } else {
+            try {
+                request.setAttribute("isAdmin", UserDao.isAdmin(user));
+            } catch (Exception e) {
+                request.setAttribute("isAdmin", false);
+            }
         }
 
         chain.doFilter(request, response);
@@ -77,6 +82,10 @@ public class AuthFilter implements Filter {
             DecodedJWT jwt = JWT.require(Algorithm.HMAC256("secret"))
                     .build()
                     .verify(token);
+            String role = jwt.getClaim("role").asString();
+            if (role != null && !role.isBlank()) {
+                request.setAttribute("jwtRole", role);
+            }
             return jwt.getClaim("user").asString();
         } catch (Exception e) {
             return null;

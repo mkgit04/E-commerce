@@ -3,6 +3,7 @@ package com.example.controllers;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.example.adv_proj.service.ProductDb;
+import com.example.adv_proj.service.UserDao;
 import com.example.adv_proj.service.SessionDao;
 
 import jakarta.servlet.annotation.WebServlet;
@@ -39,6 +40,7 @@ public class LoginServlet extends HttpServlet {
 
                 String token = JWT.create()
                         .withClaim("user", username)
+                        .withClaim("role", UserDao.isAdmin(username) ? "admin" : "user")
                         .withIssuedAt(new Date())
                         .withExpiresAt(new Date(System.currentTimeMillis() + 3_600_000L))
                         .sign(Algorithm.HMAC256("secret"));
